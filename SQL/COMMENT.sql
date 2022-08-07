@@ -9,3 +9,5 @@ create table "COMMENT"
     DESCRIPTION VARCHAR2(4000) not null
 )
 /
+
+INSERT INTO "COMMENT"(CONTENT_ID, USER_ID, DESCRIPTION) VALUES (2,14,'Insert Comment Here');
