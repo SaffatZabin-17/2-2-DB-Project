@@ -56,3 +56,9 @@ async function getInstructorByName(user_name){
         console.log(err)
     }
 }
+
+module.exports = {
+    insertNewUser,
+    getInstructorByUserID,
+    getInstructorByName
+}
