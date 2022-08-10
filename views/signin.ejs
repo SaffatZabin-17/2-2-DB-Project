@@ -135,13 +135,13 @@
                                        <!-- 
                                        <li><a href="cart.html">My Cart</a></li> -->
                                        
-                                       <li><a href="/signin">Sign In</a></li>
-                                       <li><a href="/signup">Sign Up</a></li>
+                                       <li><a href="sign-in.html">Sign In</a></li>
+                                       <li><a href="sign-up.html">Sign Up</a></li>
                                        <li><a href="contact.html">Contact</a></li>
                                     </ul>
                                  </li>
                                  
-                                 <li><a href="/signin">Sign-In</a></li>
+                                 <li><a href="sign-in.html">Sign-In</a></li>
                               </ul>
                            </nav>
                         </div>
@@ -153,7 +153,7 @@
                            
                         </div>
                         <div class="header__btn ml-20 d-none d-sm-block">
-                           <a href="/signup" class="e-btn">Join for free</a>
+                           <a href="sign-up.html" class="e-btn">Join for free</a>
                         </div>
                         <div class="sidebar__menu d-xl-none">
                            <div class="sidebar-toggle-btn ml-30" id="sidebar-toggle">
@@ -215,23 +215,23 @@
 
       <main>
 
+
          <!-- sign up area start -->
          <section class="signup__area po-rel-z1 pt-100 pb-145">
             <div class="sign__shape">
-               <img class="man-1" src="/images/icon/sign/man-3.png" alt="">
-               <img class="man-2 man-22" src="/images/icon/sign/man-2.png" alt="">
+               <img class="man-1" src="/images/icon/sign/man-1.png" alt="">
+               <img class="man-2" src="/images/icon/sign/man-2.png" alt="">
                <img class="circle" src="/images/icon/sign/circle.png" alt="">
                <img class="zigzag" src="/images/icon/sign/zigzag.png" alt="">
                <img class="dot" src="/images/icon/sign/dot.png" alt="">
                <img class="bg" src="/images/icon/sign/sign-up.png" alt="">
-               <img class="flower" src="/images/icon/sign/flower.png" alt="">
             </div>
             <div class="container">
                <div class="row">
                   <div class="col-xxl-8 offset-xxl-2 col-xl-8 offset-xl-2">
                      <div class="section__title-wrapper text-center mb-55">
-                        <h2 class="section__title">Create a free <br>  Account</h2>
-                  
+                        <h2 class="section__title">Sign in to <br>  recharge direct.</h2>
+                        <p>it you don't have an account you can <a href="#">Register here!</a></p>
                      </div>
                   </div>
                </div>
@@ -240,59 +240,39 @@
                      <div class="sign__wrapper white-bg">
                         <div class="sign__header mb-35">
                            <div class="sign__in text-center">
-                              <a href="#" class="sign__social g-plus text-start mb-15"><i class="fab fa-google-plus-g"></i>Sign Up with Google</a>
-                              <p> <span>........</span> Or, <a href="sign-up.html">sign up</a> with your email<span> ........</span> </p>
+                              <a href="#" class="sign__social text-start mb-15"><i class="fab fa-facebook-f"></i>Sign in with Facebook</a>
+                              <p> <span>........</span> Or, <a href="sign-in.html">sign in</a> with your email<span> ........</span> </p>
                            </div>
                         </div>
                         <div class="sign__form">
-                           <form action="/signup" method="POST" >
-                              <div class="sign__input-wrapper mb-25">
-                                 <h5>Account Type</h5>
-                                 
-                                    <select name="type">
-                                       <option value="student">Student</option>
-                                       <option value="instructor">Instructor</option>
-                                    </select>
-                                 
-                              </div>
-                              <div class="sign__input-wrapper mb-25">
-                                 <h5>Full Name</h5>
-                                 <div class="sign__input">
-                                    <input type="text" name="full_name" value="<%= typeof full_name != 'undefined' ? full_name : '' %>" placeholder="Full name">
-                                    <i class="fal fa-user"></i>
-                                 </div>
-                              </div>
+                           <form action="#">
                               <div class="sign__input-wrapper mb-25">
                                  <h5>Work email</h5>
                                  <div class="sign__input">
-                                    <input type="text" name="mail" value="<%= typeof mail != 'undefined' ? mail : '' %>" placeholder="e-mail address">
+                                    <input type="text" placeholder="e-mail address">
                                     <i class="fal fa-envelope"></i>
                                  </div>
                               </div>
-                              <div class="sign__input-wrapper mb-25">
+                              <div class="sign__input-wrapper mb-10">
                                  <h5>Password</h5>
                                  <div class="sign__input">
-                                    <input type="password" name="password" placeholder="Password">
+                                    <input type="text" placeholder="Password">
                                     <i class="fal fa-lock"></i>
                                  </div>
                               </div>
-                              <div class="sign__input-wrapper mb-10">
-                                 <h5>Re-Password</h5>
-                                 <div class="sign__input">
-                                    <input type="password" name="re_password" placeholder="Re-Password">
-                                    <i class="fal fa-lock"></i>
-                                 </div>
-                              </div>
-                              <div class="sign__action d-flex justify-content-between mb-30">
+                              <div class="sign__action d-sm-flex justify-content-between mb-30">
                                  <div class="sign__agree d-flex align-items-center">
                                     <input class="m-check-input" type="checkbox" id="m-agree">
-                                    <label class="m-check-label" for="m-agree">I agree to the <a href="#">Terms & Conditions</a>
+                                    <label class="m-check-label" for="m-agree">Keep me signed in
                                        </label>
                                  </div>
+                                 <div class="sign__forgot">
+                                    <a href="#">Forgot your password?</a>
+                                 </div>
                               </div>
-                              <button class="e-btn w-100"> <span></span> Sign Up</button>
+                              <button class="e-btn  w-100"> <span></span> Sign In</button>
                               <div class="sign__new text-center mt-20">
-                                 <p>Already in Shikho ? <a href="/signin"> Sign In</a></p>
+                                 <p>New to Markit? <a href="sign-up.html">Sign Up</a></p>
                               </div>
                            </form>
                         </div>
@@ -428,4 +408,3 @@
       <script src="/javascripts/main.js"></script>
    </body>
 </html>
-
