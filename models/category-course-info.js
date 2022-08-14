@@ -448,6 +448,42 @@ async function insertNewExamQuestion(question_no, sl_no, description, option_1, 
     }
 }
 
+async function addNewWrittenDocument(content_id, document_body){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `INSERT INTO WRITTEN_DOCUMENT (CONTENT_ID, DESCRIPTION) VALUES (:content_id, :document_body)`
+
+        let result = await conn.execute(
+            sql,
+            [content_id, document_body]
+        )
+        return result.rows
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function addNewComment(content_id, user_id, description){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `INSERT INTO "COMMENT" (CONTENT_ID, USER_ID, DESCRIPTION) VALUES (:content_id, :user_id, :description)`
+
+        let result = await conn.execute(
+            sql,
+            [content_id, user_id, description]
+        )
+        return result.rows
+    } catch (err){
+        console.log(err)
+    }
+}
+
 module.exports = {
     getTopCategories,
     getTopCourses,
@@ -472,6 +508,8 @@ module.exports = {
     findMaxSL_no,
     getMaxQuestionID,
     insertNewVideoContent,
-    insertNewExamQuestion
+    insertNewExamQuestion,
+    addNewWrittenDocument,
+    addNewComment
 }
 
