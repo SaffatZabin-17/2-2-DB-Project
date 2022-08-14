@@ -350,6 +350,44 @@ async function getOverallGrades(course_id){
     }
 }
 
+async function enrollACourse(user_id, course_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `INSERT INTO ENROLLS (USER_ID, COURSE_ID) VALUES (:user_id, :course_id)`
+
+        const result = await conn.execute(
+            sql,
+            [user_id, course_id]
+        )
+        return result.rows
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function coursesEnrolledIn(user_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `SELECT C.COURSE_NAME, C.COURSE_DESCRIPTION, C.TOTAL_MARKS, C.EDUCATIONAL_LEVEL, C.CATEGORY, C.IMAGE
+                   FROM COURSE C JOIN ENROLLS E on C.COURSE_ID = E.COURSE_ID
+                   WHERE E.USER_ID = :user_id`
+
+        const result = await conn.execute(
+            sql,
+            [user_id]
+        )
+        return result.rows
+    } catch (err){
+        console.log(err)
+    }
+}
+
 module.exports={
     findByID,
     findByUsername,
@@ -369,6 +407,8 @@ module.exports={
     courseCreatedByIndividualTeacher,
     searchTeacherByTeacherName,
     getGradesByTopic,
-    getOverallGrades
+    getOverallGrades,
+    enrollACourse,
+    coursesEnrolledIn
 }
 
