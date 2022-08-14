@@ -11,4 +11,4 @@ create table FORUM_ANSWER
 )
 /
 
-INSERT INTO FORUM_ANSWER (FORUM_ANSWER_ID, DESCRIPTION, ANSWER_TIME, FORUM_QUESTION_ID) VALUES (1, 1, 'Yes, that is how Java reference and instances work', '7/19/2022 08:30:00 pm');
+INSERT INTO FORUM_ANSWER (FORUM_ANSWER_ID, DESCRIPTION, ANSWER_TIME, FORUM_QUESTION_ID) VALUES (1, 'Yes, that is how Java reference and instances work', '7/19/2022 08:30:00 pm', 1);
