@@ -53,7 +53,9 @@ async function getTopTeachers(){
 
     try{
         conn = await oracleDB.getConnection(config)
-        let sql = `SELECT * FROM INSTRUCTOR ORDER BY RATINGS DESC`
+        let sql = `SELECT U.*, I.SPECIALITY, I.RATINGS
+                   FROM "USER" U JOIN INSTRUCTOR I on U.USER_ID = I.USER_ID
+                   ORDER BY RATINGS DESC`
 
         let result = await conn.execute(
             sql,
