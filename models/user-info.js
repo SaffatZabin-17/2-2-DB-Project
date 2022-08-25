@@ -272,10 +272,11 @@ async function courseCreatedByIndividualTeacher(user_id){
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `SELECT U.USER_ID, U.NAME, U.IMAGE, I2.COURSE_ID, C2.COURSE_NAME, C2.COURSE_DESCRIPTION,C2.EDUCATIONAL_LEVEL
+        let sql = `SELECT U.USER_ID, U.NAME, U.IMAGE, I.RATINGS, I2.COURSE_ID, C2.COURSE_NAME, C2.COURSE_DESCRIPTION,C2.EDUCATIONAL_LEVEL, R.RATING
                    FROM "USER" U JOIN INSTRUCTOR I ON U.USER_ID = I.USER_ID
                                  JOIN INSTRUCTS I2 on U.USER_ID = I2.USER_ID
                                  JOIN COURSE C2 on I2.COURSE_ID = C2.COURSE_ID
+                                 FULL OUTER JOIN REVIEWS R on C2.COURSE_ID = R.COURSE_ID
                    WHERE U.USER_ID = :user_id`
 
         const result = await conn.execute(
