@@ -7,18 +7,32 @@ const config = {
     connectionString: 'localhost:1521/orclpdb'
 }
 
-async function findByID(user_id){
+async function findByID(user_id, type){
     let conn;
     try{
         conn = await oracleDB.getConnection(config)
-
-        let sql = `SELECT * FROM "USER" WHERE USER_ID = :user_id`
-
-        let result = conn.execute(
-            sql,
-            [user_id]
-        )
-        return result.rows
+        if(type === 'Student'){
+            let sql = `SELECT U.*, S.EDUCATIONAL_LEVEL, S.INSTITUTION_ID 
+                       FROM "USER" U JOIN STUDENT S on U.USER_ID = S.USER_ID
+                       WHERE U.USER_ID = :user_id`
+            
+            let result = conn.execute(
+                sql,
+                [user_id, type]
+            )
+            return result.rows
+        }
+        else{
+            let sql = `SELECT U.*, I.SPECIALITY, I.RATINGS
+                       FROM "USER" U JOIN INSTRUCTOR I on U.USER_ID = I.USER_ID
+                       WHERE U.USER_ID = :user_id`
+            
+            let result = conn.execute(
+                sql,
+                [user_id, type]
+            )
+            return result.rows
+        }
     } catch (err){
         console.log(err)
     }
