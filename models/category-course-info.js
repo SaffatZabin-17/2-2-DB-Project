@@ -387,7 +387,7 @@ async function findMaxSL_no(topic_id){
 
         let result = conn.execute(
             sql,
-            []
+            [topic_id]
         )
         return result.rows
     } catch (err){
@@ -405,7 +405,7 @@ async function getMaxQuestionID(content_id){
 
         let result = conn.execute(
             sql,
-            []
+            [content_id]
         )
         return result.rows
     } catch (err){
