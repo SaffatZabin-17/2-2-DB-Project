@@ -1,18 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
+/*const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressValidator = require('express-validator');
-var flash = require('connect-flash');
-var session = require('express-session');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const bodyParser = require('body-parser');
+const fileupload=require('express-fileupload');
 async = require('async');
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRouter = require('./routes/index');
+const authRoutes = require('./routes/auth');
+const exp = require('constants');
 
 const mongoose = require("mongoose");
 const oracleDB = require('oracledb');
@@ -27,11 +30,11 @@ app.set('views', path.join(__dirname, '/views'));
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
+  res.render("home/index.ejs", { title: "Home" });
 });         
 
 app.get("/", (req, res) => {
-  res.redirect("index");
+  res.redirect("home/index.ejs");
 });
 
 
@@ -39,11 +42,13 @@ app.get("/", (req, res) => {
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/public')));
+app.use(fileupload());
 
 app.use('/', indexRouter);
-app.use('/', usersRouter);
+app.use('/', authRoutes);
 
 //Express-session
 app.use(session({
@@ -92,6 +97,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
+  console.log(err);
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
@@ -104,4 +110,36 @@ console.log("Express server listening on port 3000");
 });
 
 
-module.exports = app;
+module.exports = app;*/
+
+const path = require('path')
+
+const express = require('express')
+const bodyParser = require('body-parser')
+const fileupload=require('express-fileupload')
+
+const app = express()
+app.use(fileupload());
+
+app.set('view engine', 'ejs')
+app.set('views', 'views')
+
+const indexRoutes = require('./routes/index')
+const authRoutes = require('./routes/auth')
+const studentRoutes = require('./routes/student');
+const instructorRoutes = require('./routes/instructor');
+
+//const fileupload=require('express-fileupload');
+
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.static(path.join(__dirname, '/public')))
+
+
+
+
+app.use(indexRoutes)
+app.use(authRoutes)
+app.use('/student', studentRoutes);
+app.use('/instructor', instructorRoutes);
+
+app.listen(3000)
