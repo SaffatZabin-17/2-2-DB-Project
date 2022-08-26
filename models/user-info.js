@@ -401,6 +401,41 @@ async function coursesEnrolledIn(user_id){
     }
 }
 
+async function isEnrolledIn(user_id, course_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `SELECT * FROM ENROLLS WHERE USER_ID = :user_id AND COURSE_ID = :course_id`
+
+        const result = await conn.execute(
+            sql,
+            [user_id, course_id]
+        )
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function isTeaching(user_id, course_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `SELECT * FROM INSTRUCTS WHERE USER_ID = :user_id AND COURSE_ID = :course_id`
+
+        const result = await conn.execute(
+            sql,
+            [user_id, course_id]
+        )
+        return result.rows
+    } catch (err){
+        console.log(err)
+    }
+}
 
 
 module.exports={
@@ -424,5 +459,7 @@ module.exports={
     getGradesByTopic,
     getOverallGrades,
     enrollACourse,
-    coursesEnrolledIn
+    coursesEnrolledIn,
+    isEnrolledIn,
+    isTeaching
 }
