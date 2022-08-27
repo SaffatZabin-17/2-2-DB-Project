@@ -151,7 +151,23 @@ exports.getForumResponse = async(req, res, next) => {
     const question_ID = QID[0] + 1;
     console.log(question_ID);
 
-    const insertQuestion = await forumModels.insertForumQuestion(userId, question_ID, topic, question);
+    let date_ob = new Date();
+
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    let year = date_ob.getFullYear();
+
+    let hours = date_ob.getHours();
+
+    let minutes = date_ob.getMinutes();
+
+    let seconds = date_ob.getSeconds();
+
+    let FinalDate = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+
+    const insertQuestion = await forumModels.insertForumQuestion(userId, question_ID, topic, question, FinalDate);
     console.log(insertQuestion);
 
     const url = '/instructor/user/' + userId + '/forum';
@@ -210,7 +226,23 @@ exports.getForumAnswers = async(req, res, next) => {
     const answerBody = req.body.answer;
     console.log(answerBody);
 
-    const insertAnswer = await forumModels.insertForumAnswer(answer_id, answerBody, question_ID, userId);
+    let date_ob = new Date();
+
+    let date = ("0" + date_ob.getDate()).slice(-2);
+
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+    let year = date_ob.getFullYear();
+
+    let hours = date_ob.getHours();
+
+    let minutes = date_ob.getMinutes();
+
+    let seconds = date_ob.getSeconds();
+
+    let FinalDate = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds
+
+    const insertAnswer = await forumModels.insertForumAnswer(answer_id, answerBody, question_ID, userId, FinalDate);
     console.log(insertAnswer);
 
     const url = '/instructor/user/' + userId + '/' + 'forum/' + QID;
