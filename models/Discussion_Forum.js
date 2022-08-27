@@ -7,18 +7,17 @@ const config = {
     connectionString: 'localhost:1521/orclpdb'
 }
 
-async function insertForumQuestion(user_id, forum_qid, topic, question_description){
+async function insertForumQuestion(user_id, forum_qid, topic, question_description, question_date){
     let conn;
 
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `INSERT INTO FORUM_QUESTION (FORUM_QID, TOPIC, QUESTION_DESCRIPTION, QUESTION_DATE) VALUES (:forum_qid, :topic, :question_description, SYSDATE);
-                   INSERT INTO ASKS (USER_ID, FORUM_QUESTION_ID) VALUES (:user_id, :forum_qid) `
+        let sql = `INSERT INTO FORUM_QUESTION (FORUM_QID, TOPIC, QUESTION_DESCRIPTION, QUESTION_DATE) VALUES (:forum_qid, :topic, :question_description, TO_DATE(:question_date, 'YYYY-MM-DD HH24:MI:SS'))`
 
         let result = await conn.execute(
             sql,
-            [user_id, forum_qid, topic, question_description]
+            [user_id, forum_qid, topic, question_description, question_date]
         )
         return result.rows
     } catch (err){
@@ -26,18 +25,17 @@ async function insertForumQuestion(user_id, forum_qid, topic, question_descripti
     }
 }
 
-async function insertForumAnswer(forum_answer_id, description, forum_qid, user_id){
+async function insertForumAnswer(forum_answer_id, description, forum_qid, user_id, answer_date){
     let conn;
 
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `INSERT INTO FORUM_ANSWER (FORUM_ANSWER_ID, DESCRIPTION, ANSWER_DATE, FORUM_QUESTION_ID) VALUES (:forum_answer_id, :description, SYSDATE, :forum_qid);
-                   INSERT INTO PUBLISHES (FORUM_ANSWER_ID, USER_ID) VALUES (:forum_answer_id, :user_id)`
+        let sql = `INSERT INTO FORUM_ANSWER (FORUM_ANSWER_ID, DESCRIPTION, ANSWER_DATE, FORUM_QUESTION_ID) VALUES (:forum_answer_id, :description, TO_DATE(:answer_date, 'YYYY-MM-DD HH24:MI:SS'), :forum_qid)`
 
         let result = await conn.execute(
             sql,
-            [forum_answer_id, description, forum_qid, user_id]
+            [forum_answer_id, description, forum_qid, user_id, answer_date]
         )
         return result.rows
     } catch (err){
