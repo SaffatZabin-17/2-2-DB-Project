@@ -6,7 +6,7 @@ const multer = require('multer')
 const upload = multer({ dest: 'upload/' })
 
 const sendGridTransport = require('nodemailer-sendgrid-transport');
-const userModels = require('../models/user');
+const userModels = require('../models/user-info');
 
 
 
@@ -41,9 +41,9 @@ exports.postSignIn = async(req, res, next) => {
     const user_repo = await userModels.getEmailID(email);
     console.log(user_repo[0]);
     const pass_check = await userModels.getPasswordFromEmailID(email);
-    console.log(pass_check==pass);
+    console.log(pass_check===pass);
 
-    if (user_repo[0].length !== 0 && pass_check==pass) {
+    if (user_repo[0].length !== 0 && pass_check===pass) {
 
         if (user_repo[0].length > 0) {
 
@@ -170,7 +170,7 @@ exports.postSignUp = async(req, res, next) => {
     console.log("finished searching for email id in database");
 
 
-    if (user_repo[0]!= undefined && user_repo[0].length > 0) {
+    if (user_repo[0]!== undefined && user_repo[0].length > 0) {
 
         return res.render('home/signup', {
             pageTitle: 'Registration',
