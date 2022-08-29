@@ -122,8 +122,11 @@ async function getCourseOfSearch(req){
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `SELECT C.*, R.RATING  
+        let sql = `SELECT C.*, R.RATING, U.*  
                    FROM COURSE C JOIN REVIEWS R on C.COURSE_ID = R.COURSE_ID
+                                 JOIN INSTRUCTS I ON C.COURSE_ID = I.COURSE_ID
+                                 JOIN INSTRUCTOR I2 ON I.USER_ID = I2.COURSE_ID
+                                 JOIN "USER" U ON I2.USER_ID = U.USER_ID
                    WHERE LOWER(COURSE_NAME) LIKE :req OR LOWER(CATEGORY) LIKE :req`
 
         let result = await conn.execute(
