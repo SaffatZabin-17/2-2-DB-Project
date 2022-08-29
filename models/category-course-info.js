@@ -420,13 +420,15 @@ async function insertNewTopic(topic_id, sl_no, topic_title, topic_description, c
     }
 }
 
-async function findMaxSL_no(topic_id){
+async function findMaxSL_no(course_id){
     let conn;
 
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `SELECT MAX(SL_NO) FROM TOPICS`
+        let sql = `SELECT MAX(SL_NO), COURSE_ID FROM TOPICS 
+                   WHERE COURSE_ID = :course_id
+                   GROUP BY COURSE_ID`
 
         let result = conn.execute(
             sql,
