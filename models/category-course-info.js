@@ -497,18 +497,18 @@ async function insertNewVideoContent(link, content_id){
     }
 }
 
-async function insertIntoContentsAfterInsertingVideo(content_id, sl_no, title, duration, topic_id){
+async function insertIntoContentsAfterInsertingVideo(content_id, sl_no, title, duration, topic_id, total_marks){
     let conn;
 
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `INSERT INTO CONTENTS(CONTENT_ID, SL_NO, TITLE, DURATION, TOPIC_ID) 
-                   VALUES (:content_id, :sl_no, :title, :duration, :topic_id)`
+        let sql = `INSERT INTO CONTENTS(CONTENT_ID, SL_NO, TITLE, DURATION, TOPIC_ID, TOTAL_MARKS) 
+                   VALUES (:content_id, :sl_no, :title, :duration, :topic_id, :total_marks)`
 
         let result = await conn.execute(
             sql,
-            [content_id, sl_no, title, duration, topic_id]
+            [content_id, sl_no, title, duration, topic_id, total_marks]
         )
 
         return result.rows;
