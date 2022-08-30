@@ -461,7 +461,28 @@ async function findMaxSL_no_content(topic_id){
     }
 }
 
-async function getMaxQuestionID(content_id){
+async function findMaxSL_no_question(content_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `SELECT MAX(SL_NO), CONTENT_ID FROM QUESTION_ANSWER
+                   WHERE CONTENT_ID = :content_id
+                   GROUP BY CONTENT_ID`
+
+        let result = await conn.execute(
+            sql,
+            [content_id]
+        )
+
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function getMaxQuestionID(){
     let conn;
 
     try{
@@ -471,7 +492,7 @@ async function getMaxQuestionID(content_id){
 
         let result = conn.execute(
             sql,
-            [content_id]
+            []
         )
         return result.rows
     } catch (err){
@@ -770,6 +791,7 @@ module.exports = {
     findTopicByTopicID,
     getVideoFromContent_ID,
     findExamFromContent_ID,
+    findMaxSL_no_question,
     addNewCourse,
     addNewReview,
     addNewTeacherIntoCourse,
