@@ -202,7 +202,8 @@ async function coursesTaken(user_id){
                                  JOIN ENROLLS E on U.USER_ID = E.USER_ID
                                  JOIN COURSE C2 on E.COURSE_ID = C2.COURSE_ID
                                  FULL OUTER JOIN REVIEWS R2 on C2.COURSE_ID = R2.COURSE_ID
-                   WHERE U.USER_ID = :user_id`
+                   WHERE U.USER_ID = :user_id
+                   GROUP BY U.NAME, C2.COURSE_ID, C2.COURSE_NAME, C2.COURSE_DESCRIPTION, C2.TOTAL_MARKS, C2.EDUCATIONAL_LEVEL, C2.CATEGORY, C2.IMAGE`
         const result = await conn.execute(
             sql,
             [user_id]
