@@ -119,8 +119,40 @@ async function addUser(user_id, name, email, password, image, type){
     }
 }
 
-async function addUserToStudent(){
+async function addUserToStudent(user_id, educational_level){
+    let conn;
 
+    try{
+        conn = await oracleDB.getConnection(config);
+
+        let sql = `INSERT INTO STUDENT (USER_ID, EDUCATIONAL_LEVEL) VALUES (:user_id, :educational_level)`
+
+        const result = await conn.execute(
+            sql,
+            [user_id, educational_level]
+        )
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function addUserToInstructor(user_id, speciality){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `INSERT INTO INSTRUCTOR (USER_ID, SPECIALITY) VALUES (:user_id, :speciality)`
+
+        const result = await conn.execute(
+            sql,
+            [user_id, speciality]
+        )
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
 }
 
 async function isStudent(email){
@@ -377,6 +409,25 @@ async function enrollACourse(user_id, course_id){
     }
 }
 
+async function instructACourse(user_id, course_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `INSERT INTO INSTRUCTS (USER_ID, COURSE_ID) VALUES (:user_id, :course_id)`
+
+        const result = await conn.execute(
+            sql,
+            [user_id, course_id]
+        )
+
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
 async function coursesEnrolledIn(user_id){
     let conn;
 
@@ -482,6 +533,7 @@ module.exports={
     getGradesByTopic,
     getOverallGrades,
     enrollACourse,
+    instructACourse,
     coursesEnrolledIn,
     isEnrolledIn,
     isTeaching,
