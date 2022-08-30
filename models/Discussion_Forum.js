@@ -204,6 +204,24 @@ async function getAnswerVoteCount(question_id){
     }
 }
 
+async function insertIntoAsks(user_id, forum_question_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `INSERT INTO ASKS (USER_ID, FORUM_QUESTION_ID) VALUES (:user_id, :forum_question_id)`
+
+        let result = await conn.execute(
+            sql,
+            [user_id, forum_question_id]
+        )
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
 module.exports = {
     insertForumQuestion,
     insertForumAnswer,
@@ -214,7 +232,8 @@ module.exports = {
     getQuestionByQID,
     getAnswerByQID,
     getQuestionVoteCount,
-    getAnswerVoteCount
+    getAnswerVoteCount,
+    insertIntoAsks
 }
 
 

@@ -402,13 +402,33 @@ async function getMaxTopicID(){
     }
 }
 
+async function getMaxContent_ID(topic_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `SELECT MAX(CONTENT_ID), TOPIC_ID FROM CONTENTS
+                   WHERE TOPIC_ID := topic_id
+                   GROUP BY TOPIC_ID`
+
+        let result = await conn.execute(
+            sql,
+            [topic_id]
+        )
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
 async function insertNewTopic(topic_id, sl_no, topic_title, topic_description, course_id){
     let conn
     try{
         conn = await oracleDB.getConnection(config)
 
         let sql = `INSERT INTO TOPICS(TOPIC_ID, SL_NO, TOPIC_TITLE, TOPIC_DESCRIPTION, COURSE_ID)
-                   VALUES (:topic_id, :sl_no, :topic_title, topic_description, course_id)`
+                   VALUES (:topic_id, :sl_no, :topic_title, :topic_description, :course_id)`
 
         let result = await conn.execute(
             sql,
@@ -538,18 +558,18 @@ async function insertIntoContentsAfterInsertingVideo(content_id, sl_no, title, d
     }
 }
 
-async function insertNewExamQuestion(question_no, sl_no, description, option_1, option_2, option_3, option_4, content_id){
+async function insertNewExamQuestion(question_no, description, option_1, option_2, option_3, option_4, content_id){
     let conn;
 
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `INSERT INTO QUESTION_ANSWER ("Question_ID", SL_NO, DESCRIPTION, OPTION_1, OPTION_2, OPTION_3, OPTION_4, CONTENT_ID) 
-                   VALUES (:question_id, :sl_no, :description, :option_1, :option_2, :option_3, :option_4, :content_id)`
+        let sql = `INSERT INTO QUESTION_ANSWER ("Question_ID", DESCRIPTION, OPTION_1, OPTION_2, OPTION_3, OPTION_4, CONTENT_ID) 
+                   VALUES (:question_id, :description, :option_1, :option_2, :option_3, :option_4, :content_id)`
 
         let result = await conn.execute(
             sql,
-            [question_no, sl_no, description, option_1, option_2, option_3, option_4, content_id]
+            [question_no, description, option_1, option_2, option_3, option_4, content_id]
         )
         return result.rows
     } catch (err){
@@ -738,24 +758,6 @@ async function insertCorrectAnswer(correct_answer, question_id){
     }
 }
 
-async function insertIntoAsks(user_id, forum_question_id){
-    let conn;
-
-    try{
-        conn = await oracleDB.getConnection(config)
-
-        let sql = `INSERT INTO ASKS (USER_ID, FORUM_QUESTION_ID) VALUES (:user_id, :forum_question_id)`
-
-        let result = await conn.execute(
-            sql,
-            [user_id, forum_question_id]
-        )
-        return result.rows;
-    } catch (err){
-        console.log(err)
-    }
-}
-
 async function insertIntoNotification(content_id, user_id, time){
     let conn;
 
@@ -797,6 +799,7 @@ module.exports = {
     addNewTeacherIntoCourse,
     insertCompletion,
     getMaxTopicID,
+    getMaxContent_ID,
     insertNewTopic,
     findMaxSL_no_topic,
     findMaxSL_no_content,
@@ -814,7 +817,6 @@ module.exports = {
     insertTotalMarksAfterNewExam,
     insertIntoExam,
     insertCorrectAnswer,
-    insertIntoAsks,
     insertIntoNotification
 }
 
