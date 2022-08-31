@@ -107,7 +107,11 @@ async function addUser(user_id, name, email, password, image, type){
     try{
         conn = await oracleDB.getConnection(config);
 
-        let sql = 'INSERT INTO "USER" (USER_ID, NAME, EMAIL, PASSWORD, IMAGE, TYPE) VALUES(:user_id, :name, :email, :password, :image, :type)'
+        let sql = `DECLARE
+                        success BOOLEAN;
+                   BEGIN
+                        success := INSERT_INTO_USER(:user_id, :name, :email, :password, :image, :type);
+                   end;`
 
         const result = await conn.execute(
             sql,
@@ -125,7 +129,12 @@ async function addUserToStudent(user_id, educational_level){
     try{
         conn = await oracleDB.getConnection(config);
 
-        let sql = `INSERT INTO STUDENT (USER_ID, EDUCATIONAL_LEVEL) VALUES (:user_id, :educational_level)`
+        let sql = `DECLARE
+                        success VARCHAR(1000);
+                   BEGIN
+                        success := INSERT_INTO_STUDENT(:user_id, :educational_level);
+                   END;`
+
 
         const result = await conn.execute(
             sql,
@@ -143,7 +152,11 @@ async function addUserToInstructor(user_id, speciality){
     try{
         conn = await oracleDB.getConnection(config)
 
-        let sql = `INSERT INTO INSTRUCTOR (USER_ID, SPECIALITY) VALUES (:user_id, :speciality)`
+        let sql = `DECLARE
+                        success VARCHAR(1000);
+                   BEGIN
+                        success := INSERT_INTO_INSTRUCTOR(:user_id, :speciality);
+                   END;`
 
         const result = await conn.execute(
             sql,
@@ -520,6 +533,8 @@ module.exports={
     getEmailID,
     getPasswordFromEmailID,
     addUser,
+    addUserToStudent,
+    addUserToInstructor,
     isStudent,
     isTeacher,
     coursesTaken,

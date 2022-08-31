@@ -222,6 +222,74 @@ async function insertIntoAsks(user_id, forum_question_id){
     }
 }
 
+async function insertIntoPublishes(user_id, forum_answer_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `INSERT INTO PUBLISHES (FORUM_ANSWER_ID, USER_ID) VALUES (:forum_answer_id, :user_id)`
+
+        let result = await conn.execute(
+            sql,
+            [user_id, forum_answer_id]
+        )
+
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function updateForumAnswerVote(forum_answer_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `DECLARE
+                        v_count NUMBER;
+                   BEGIN
+                        v_count := UPDATE_ANSWER_VOTE_COUNT(1);
+
+                        DBMS_OUTPUT.PUT_LINE(v_count);
+                   end;`
+
+        let result = await conn.execute(
+            sql,
+            [forum_answer_id]
+        )
+
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
+async function updateForumQuestionVote(forum_question_id){
+    let conn;
+
+    try{
+        conn = await oracleDB.getConnection(config)
+
+        let sql = `DECLARE
+                        v_count NUMBER;
+                   BEGIN
+                        v_count := UPDATE_QUESTION_VOTE_COUNT(:forum_question_id);
+                        DBMS_OUTPUT.PUT_LINE(v_count);
+                   end;`
+
+        let result = await conn.execute(
+            sql,
+            [forum_question_id]
+        )
+        return result.rows;
+    } catch (err){
+        console.log(err)
+    }
+}
+
+
 module.exports = {
     insertForumQuestion,
     insertForumAnswer,
@@ -233,7 +301,10 @@ module.exports = {
     getAnswerByQID,
     getQuestionVoteCount,
     getAnswerVoteCount,
-    insertIntoAsks
+    insertIntoAsks,
+    insertIntoPublishes,
+    updateForumAnswerVote,
+    updateForumQuestionVote
 }
 
 
