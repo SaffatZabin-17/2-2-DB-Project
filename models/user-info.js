@@ -383,20 +383,20 @@ async function getGradesByTopic(topic_id){
     }
 }
 
-async function getOverallGrades(course_id){
+async function getOverallGrades(user_id, course_id){
     let conn;
 
     try{
         conn = await oracleDB.getConnection(config)
 
         let sql = `SELECT ((SELECT SUM(OBTAINED_MARKS)
-                            FROM COMPLETED_CONTENT)/TOTAL_MARKS)*100 AS OVERALL_GRADES
+                            FROM COMPLETED_CONTENT WHERE USER_ID = :user_id)/TOTAL_MARKS)*100 AS OVERALL_GRADES
                    FROM COURSE
                    WHERE COURSE_ID = :course_id`
 
         const result = await conn.execute(
             sql,
-            [course_id]
+            [user_id, course_id]
         )
         return result.rows
     } catch (err){
